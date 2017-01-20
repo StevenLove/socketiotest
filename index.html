@@ -14,12 +14,21 @@
     </style>
   </head>
   <body>
+    <canvas id="c" width="500px" height="500px"></canvas>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
     </form>
+
+    <!-- Dependencies! -->
+    <!-- Remote -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.3/fabric.min.js"></script>
+
+    <!-- Local -->
     <script src="./client.js"></script>
+
+
   </body>
 </html>
