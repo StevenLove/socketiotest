@@ -12,6 +12,6 @@ BUILDING
 >>npm install
 
 RUNNING
->>node index.js
+>>node server.js
 point browser to localhost:3000/
 
