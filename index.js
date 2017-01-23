@@ -26,6 +26,13 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
+  socket.on('mouse coords', function(x,y){
+    io.emit('mouse coords', x, y);
+  })
+  socket.on('object added', function(serialized){
+    console.log("obj added");
+    socket.broadcast.emit('object added', serialized);
+  })
 });
 
 http.listen(3000, function(){
