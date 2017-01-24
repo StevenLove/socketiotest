@@ -31,6 +31,9 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
+  socket.on("transaction", function(t){
+    io.emit("transaction",t);
+  })
 });
 
 //This actually tells your program to listen to a port
