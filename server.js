@@ -21,10 +21,16 @@ app.get('/client.js', function(req,res){
   res.sendFile(__dirname+'/client.js');
 })
 
+var transactions = [];
 //Using Socket.io...
-//
+
 io.on('connection', function(socket){
   console.log('a user connected');
+  transactions.forEach(function(t){
+    socket.emit("transaction",t);
+  })
+  // io.emit("transaction",socket.id);
+
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
@@ -32,9 +38,15 @@ io.on('connection', function(socket){
     io.emit('chat message', msg);
   });
   socket.on("transaction", function(t){
+    transactions.push(t);
     io.emit("transaction",t);
   })
+
+  socket.emit("ready");
 });
+
+//State management
+var numPlayers = 0;
 
 //This actually tells your program to listen to a port
 var port = 3000;
