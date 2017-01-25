@@ -59,13 +59,30 @@ var getPlayerPosition = function(sid,time){
      console.log(curTransaction);
      assert(false,"transaction not moving in any direction");
    }
-   curCoords.x += deltaX;
-   curCoords.y += deltaY;
+   curCoords.x += deltaX/10;
+   curCoords.y += deltaY/10;
    return curCoords;
  },coords);
 
   return coords;
 }
+
+
+
+// fabric
+var canvas = new fabric.Canvas('c');
+var maxPlayers = 10;
+var colors = ["red","green","blue","black","yellow","purple","orange","pink","gray","teal"]
+var circles = colors.map(function(v){
+  return new fabric.Circle({
+    radius: 2, fill: v, left: 0, top: 0
+  })
+})
+circles.forEach(function(c){
+  canvas.add(c);
+});
+
+console.log(canvas);
 
 var refresh = function(){
   // console.log(state);
@@ -73,18 +90,35 @@ var refresh = function(){
   var text = "";
   var sids = getSids(now);
   console.log(sids);
-  sids.forEach(function(sid){
+  sids.forEach(function(sid,index){
     var coords = getPlayerPosition(sid,now);
-    text += "player: " + sid + ".  is at " + JSON.stringify(coords) + "\n";
+    console.log("index: " + index);
+    canvas.item(index).set({left:coords.x});
+    canvas.item(index).set({top:coords.y});
+    text += "player: " + sid + ".  is at " + coords.x.toFixed(2) + "," + coords.y.toFixed(2) + "\r\n";
   })
-  $("#out").text(text);
-
-  
+    $("#out").text(text);
+    $("#out").css("white-space","pre-line");
+  canvas.renderAll();
 }
 
 
-var refreshRate = 500; //ms
+var refreshRate = 50; //ms
 setInterval(refresh,refreshRate);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -104,6 +138,7 @@ socket.on('chat message', function(msg){
   $('#messages').append($('<li>').text(msg));
 });
 socket.on('transaction', function(t){
+  // setTimeout(function(){addTransaction(t);},200);
   addTransaction(t);
 })
 socket.on('ready',function(){
